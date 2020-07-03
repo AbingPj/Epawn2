@@ -1,0 +1,22 @@
+image: atlassian/default-image:2
+
+pipelines:
+    branches:
+        staging:
+            - step:
+                  name: staging
+                  deployment: staging
+                  script:
+                    - apt-get update
+                    - apt-get -qq install git-ftp
+                    - git ftp push --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://166.62.27.185/epawn_staging
+                    - echo "Deploy Staging steps finished"
+        master:
+            - step:
+                  name: master
+                  deployment: production
+                  script:
+                    - apt-get update
+                    - apt-get -qq install git-ftp
+                    - git ftp push --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://166.62.27.185/epawn_master
+                    - echo "Deploy Master steps finished"
