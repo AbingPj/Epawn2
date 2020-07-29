@@ -44,6 +44,7 @@ class mobileApiController extends Controller
     {
 
         $useri_id = $request->userId;
+        $arr = array();
         $pawned_items = zPawnedItem::all()
             ->where('customer_id', $useri_id)
             ->where('is_rejected', 0);
@@ -56,6 +57,8 @@ class mobileApiController extends Controller
             $pawned_item->payment_claimed = $this->claim_payment;
             $pawned_item->payment_renew = $this->renew_payment;
         }
+        array_push($arr, $pawned_items);
+       // return $arr;
         return response()->json($pawned_items);
     }
 
