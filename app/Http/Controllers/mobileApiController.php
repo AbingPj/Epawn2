@@ -21,33 +21,36 @@ class mobileApiController extends Controller
 
     public function getUserBiddings2(Request $request)
     {
-         return  DB::table('tbl_user_itempost')
-             ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
-             ->join('tbl_users', 'tbl_users.user_id', '=', 'tbl_user_itempost.pawnshop_id')
-             ->where('tbl_user_itempost.user_id', $request->userId)
-             ->where('tbl_user_itempost.status', 1)
-             ->get();
-             
-     
+        return  DB::table('tbl_user_itempost')
+            ->join('tbl_item_category', 'tbl_item_category.category_id', '=', 'tbl_user_itempost.category_id')
+            ->join('tbl_users', 'tbl_users.user_id', '=', 'tbl_user_itempost.pawnshop_id')
+            ->where('tbl_user_itempost.user_id', $request->userId)
+            ->where('tbl_user_itempost.status', 1)
+            ->get();
+
+
 
         //$data = tbl_user_itempost::all()->where('user_id', $request->userId)->where('status', 1);
- 
+
         //foreach ($data as $key => $item) {
-          //  $item->user = $item->user;
-          //  $item->category = $item->category;
+        //  $item->user = $item->user;
+        //  $item->category = $item->category;
         //}
-      
-       // return response()->json($data);
+
+        // return response()->json($data);
     }
 
     public function getUserBiddingRecords2(Request $request)
     {
 
         $useri_id = $request->userId;
-        $arr = array();
-        $pawned_items = zPawnedItem::all()
-            ->where('customer_id', $useri_id)
-            ->where('is_rejected', 0);
+        // $arr = array();
+
+        $pawned_items = zPawnedItem::where('customer_id', $useri_id)
+            ->where('is_rejected', 0)
+            ->get();
+
+
         foreach ($pawned_items as $key => $pawned_item) {
             $pawnshop = $pawned_item->pawnshop;
             $customer = $pawned_item->user;
@@ -57,8 +60,10 @@ class mobileApiController extends Controller
             $pawned_item->payment_claimed = $this->claim_payment;
             $pawned_item->payment_renew = $this->renew_payment;
         }
-        array_push($arr, $pawned_items);
-       // return $arr;
+
+
+        // array_push($arr, $pawned_items);
+        // return $arr;
         return response()->json($pawned_items);
     }
 

@@ -15,7 +15,7 @@ class zPackageController extends Controller
 
     public function zGetPackages($pawnshop_id)
     {
-        $packages = zPackage::all()->where('pawnshop_id', $pawnshop_id);
+        $packages = zPackage::where('pawnshop_id', $pawnshop_id)->get();
         foreach ($packages as $key => $pack) {
             $pack->durations = $pack->durations;
         }
@@ -128,7 +128,7 @@ class zPackageController extends Controller
     //         $package->package_name = $request->package_name;
     //         $package->pawnshop_id = $request->pawnshop_id;
     //         $package->package_description = $request->package_description;
-    //         $package->save();  
+    //         $package->save();
     //         $durations = $request->duration;
 
     //         foreach ($durations as $key => $duration) {
@@ -157,7 +157,7 @@ class zPackageController extends Controller
         $package->durations = $package->durations;
          return response()->json($package);
     }
-    
+
 
 
 
