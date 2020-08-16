@@ -62,7 +62,7 @@
 						v-bind:src="`../../images/${item.item_photo}`"
 					/>
 					<div class="item-body">
-						<div class="item-name">{{ item.item_name }} {{ item.item_id }}</div>
+						<div class="item-name">{{ item.item_name }}</div>
 						<div class="item-description">{{ item.item_description }}</div>
 						<div class="item-category">
 							{{ item.category_name }}
@@ -268,6 +268,7 @@ export default {
 .item-image {
 	width: 100%;
 	height: 200px;
+    object-fit: cover;
 }
 .item {
 	display: inline-block;

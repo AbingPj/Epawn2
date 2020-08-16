@@ -138,12 +138,12 @@ class AllSeeder extends Seeder
             'email' => 'ml@gmail.com',
             'image' => 'seeds/1583901019download.png',
             'business_permit' => 'seeds/mlcon.jpg',
-            // 'control_num' => '',
+            'control_num' => '136517',
             'role_id' => 2,
             // 'branch' => '',
             'latitude' => '7.063426',
             'longtitude' => '125.598706',
-            'isValid' => 1,
+            'isValid' => 0,
             // 'reason' => '',
             'joined' => Carbon::now('Asia/Manila'),
             // 'noticed' => date("Y-m-d H:i:s"),
@@ -167,12 +167,12 @@ class AllSeeder extends Seeder
             'email' => 'cl@gmail.com',
             'image' => 'seeds/1583901232cebuana.png',
             'business_permit' => 'seeds/cbcon.jpg',
-            // 'control_num' => '',
+            'control_num' => '789252',
             'role_id' => 2,
             // 'branch' => '',
             'latitude' => '7.061738',
             'longtitude' => '125.593422',
-            'isValid' => 1,
+            'isValid' => 0,
             // 'reason' => '',
             'joined' => Carbon::now('Asia/Manila'),
             // 'noticed' => date("Y-m-d H:i:s"),
@@ -309,32 +309,85 @@ class AllSeeder extends Seeder
             'photo_4' =>'seeds/items/item2-1.jpg',
         ]);
 
+        // DB::table('tbl_user_itempost')
+        // ->insert([
+        //     'item_name' => 'Heart Necklace Gold',
+        //     'item_description' => '18k saudi gold necklace',
+        //     'category_id' => 1,
+        //     'user_id' => 7,
+        //     'item_photo' =>'seeds/items/item2-1.jpg',
+        //     'photo_1' =>'seeds/items/item2-2.jpg',
+        //     'photo_2' =>'seeds/items/item2-3.jpg',
+        //     'photo_3' =>'seeds/items/item2-4.jpg',
+        //     'photo_4' =>'seeds/items/item2-1.jpg',
+        // ]);
+
         DB::table('tbl_user_itempost')
         ->insert([
-            'item_name' => 'Heart Necklace Gold',
-            'item_description' => '18k saudi gold necklace',
+            'item_name' => 'Gold gold earings',
+            'item_description' => '18k saudi gold earings',
             'category_id' => 1,
             'user_id' => 7,
-            'item_photo' =>'seeds/items/item2-1.jpg',
-            'photo_1' =>'seeds/items/item2-2.jpg',
-            'photo_2' =>'seeds/items/item2-3.jpg',
-            'photo_3' =>'seeds/items/item2-4.jpg',
-            'photo_4' =>'seeds/items/item2-1.jpg',
+            'item_photo' =>'seeds/items/earings.jpg',
+            'photo_1' =>'seeds/items/earings.jpg',
+            'photo_2' =>'seeds/items/earings.jpg',
+            'photo_3' =>'seeds/items/earings.jpg',
+            'photo_4' =>'seeds/items/earings.jpg',
         ]);
 
         DB::table('tbl_user_itempost')
         ->insert([
-            'item_name' => 'Heart Necklace Gold',
-            'item_description' => '18k saudi gold necklace',
+            'item_name' => 'Gold Clip Earings',
+            'item_description' => '18k saudi gold, 1.12g each',
             'category_id' => 1,
             'user_id' => 7,
-            'item_photo' =>'seeds/items/item3-1.jpg',
-            'photo_1' =>'seeds/items/item3-2.jpg',
-            'photo_2' =>'seeds/items/item3-3.jpg',
-            'photo_3' =>'seeds/items/item3-4.jpg',
-            'photo_4' =>'seeds/items/item3-1.jpg',
+            'item_photo' =>'seeds/items/earings2.jpg',
+            'photo_1' =>'seeds/items/earings2.jpg',
+            'photo_2' =>'seeds/items/earings2.jpg',
+            'photo_3' =>'seeds/items/earings2.jpg',
+            'photo_4' =>'seeds/items/earings2.jpg',
         ]);
 
+
+        DB::table('tbl_user_itempost')
+        ->insert([
+            'item_name' => 'DSLR Canon',
+            'item_description' => '50 mega pixel',
+            'category_id' => 2,
+            'user_id' => 7,
+            'item_photo' =>'seeds/items/dslr_canon.jpg',
+            'photo_1' =>'seeds/items/dslr_canon.jpg',
+            'photo_2' =>'seeds/items/dslr_canon.jpg',
+            'photo_3' =>'seeds/items/dslr_canon.jpg',
+            'photo_4' =>'seeds/items/dslr_canon.jpg',
+        ]);
+
+
+        DB::table('tbl_user_itempost')
+        ->insert([
+            'item_name' => 'Sony Camera DSLR',
+            'item_description' => '100 mega pixel',
+            'category_id' => 2,
+            'user_id' => 7,
+            'item_photo' =>'seeds/items/dslr_sony.jpg',
+            'photo_1' =>'seeds/items/dslr_sony.jpg',
+            'photo_2' =>'seeds/items/dslr_sony.jpg',
+            'photo_3' =>'seeds/items/dslr_sony.jpg',
+            'photo_4' =>'seeds/items/dslr_sony.jpg',
+        ]);
+
+        DB::table('tbl_user_itempost')
+        ->insert([
+            'item_name' => 'Nikon DSLR Camera',
+            'item_description' => '80 mega pixel',
+            'category_id' => 2,
+            'user_id' => 7,
+            'item_photo' =>'seeds/items/dslr_nikon.jpg',
+            'photo_1' =>'seeds/items/dslr_nikon.jpg',
+            'photo_2' =>'seeds/items/dslr_nikon.jpg',
+            'photo_3' =>'seeds/items/dslr_nikon.jpg',
+            'photo_4' =>'seeds/items/dslr_nikon.jpg',
+        ]);
 
         Schema::enableForeignKeyConstraints();
 

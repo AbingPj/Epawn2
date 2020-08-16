@@ -32,7 +32,7 @@
 
 			<div class="information-panel">
 				<div class="information-header">
-					
+
 					Personal Information
 					<button
 						v-on:click="enableEditing()"
@@ -44,7 +44,7 @@
 						Edit Personal Informations
 					</button>
 
-					
+
 
 					<button
 						class="btn btn-danger"
@@ -739,6 +739,10 @@ export default {
 		},
 
 		isValidToBeSaved() {
+
+
+
+
 			if (this.profile.username.trim().length == 0) {
 				return true;
 			}
