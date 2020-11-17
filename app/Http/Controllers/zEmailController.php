@@ -15,7 +15,7 @@ class zEmailController extends Controller
     public function test()
     {
 
-          
+
         // $contact = '09068002030';
         // $newstring = substr($contact, -10);
         // return '63'.$newstring;
@@ -27,7 +27,7 @@ class zEmailController extends Controller
         // ) {
         //     return $contact;
         // } else {
-        //     return 'shit';
+        //     return 'okay, just test';
         // }
 
 
@@ -45,20 +45,20 @@ class zEmailController extends Controller
             }
         );
 
-        ///Send SMS 
+        ///Send SMS
         // 639507599270
         // 639564510415
         // 639309008864
         $contact = '639068002030';
-        $basic  = new \Nexmo\Client\Credentials\Basic('7d5f097e', 'BA5EPguxLE0jbEed');
+        $basic  = new \Nexmo\Client\Credentials\Basic('22cf11ff', 'guV91Wel1v4Z9b3l');
         $client = new \Nexmo\Client($basic);
-        $message = "Hi Pj Abing, your registration code is: [ " . $confirmation_code . " ]";
+        $message = "Hi, This is Epawn your registration code is: [ " . $confirmation_code . " ]";
         $client->message()->send([
             'to' => $contact,
             'from' => 'E-pawn',
             'text' => $message
         ]);
 
-        return "Email Sent";
+        return "Email Sent and SMS sent";
     }
 }

@@ -141,24 +141,20 @@ class UserController extends Controller
                     }
                 );
 
-                ///Send SMS 
-                //if (
-                //    $user->contact == '639507599270' ||
-                //    $user->contact == '639068002030' ||
-                //    $user->contact == '639564510415' ||
-                //    $user->contact == '639381965306' ||
-                //    $user->contact == '639666817407' ||
-                //    $user->contact == '639309008864'
-                //) {
-                //    $basic  = new \Nexmo\Client\Credentials\Basic('7d5f097e', 'BA5EPguxLE0jbEed');
-                //    $client = new \Nexmo\Client($basic);
-                //    $message = "Hi " . $user->username . ", your registration code is: [   " . $user->confirmation_code . "  ]";
-                //    $client->message()->send([
-                //        'to' => $user->contact,
-                //        'from' => 'E-pawn',
-                //        'text' => $message
-                //    ]);
-                //}
+                //Send SMS
+                if (
+                   $user->contact == '639068002030' ||
+                   $user->contact == '639458375737'
+                ) {
+                   $basic  = new \Nexmo\Client\Credentials\Basic('22cf11ff', 'guV91Wel1v4Z9b3l');
+                   $client = new \Nexmo\Client($basic);
+                   $message = "Hi " . $user->username . ", your registration code is: [   " . $user->confirmation_code . "  ]";
+                   $client->message()->send([
+                       'to' => $user->contact,
+                       'from' => 'E-pawn',
+                       'text' => $message
+                   ]);
+                }
 
                 return response()->json([
                     'msg' => 'success',
@@ -219,7 +215,7 @@ class UserController extends Controller
                 'expiration' => $nextMonth,
                 'reason' => $request->reason
             ]);
-            
+
     }
     public function changePassword(Request $request)
     {

@@ -477,7 +477,8 @@ export default {
                         this.bid_range.to.trim().length == 0 ? true : false,
                      bid_from: this.bid_range.from,
                      bid_to: this.bid_range.to,
-                     itemName: this.itemDetails[0].item_name
+                     itemName: this.itemDetails[0].item_name,
+                     user_id: data.userId
                   };
                   console.info("sns sms", smsData);
                   SMS.methods.sendSMS(smsData);
