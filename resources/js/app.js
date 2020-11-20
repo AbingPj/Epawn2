@@ -45,11 +45,11 @@ import SuperAdminDashboard from './components/ParentComponents/SuperAdminDashboa
 
 
 ////////////// ADMIN  PAGES /////////////
-import SuperAdminDashboardOld from './components/SuperAdminDashboard.vue'; 
-import ReportedUsers from './components/AdminPages/ReportedUsers.vue'; 
-import BlockedUsers from './components/AdminPages/BlockedUsers.vue'; 
-import ReportedPawnshops from './components/AdminPages/ReportedPawnshops.vue'; 
-import BlockedPawnshops from './components/AdminPages/BlockedPawnshops.vue'; 
+import SuperAdminDashboardOld from './components/SuperAdminDashboard.vue';
+import ReportedUsers from './components/AdminPages/ReportedUsers.vue';
+import BlockedUsers from './components/AdminPages/BlockedUsers.vue';
+import ReportedPawnshops from './components/AdminPages/ReportedPawnshops.vue';
+import BlockedPawnshops from './components/AdminPages/BlockedPawnshops.vue';
 Vue.component("reported-users", require("./components/AdminPages/ReportedUsers.vue").default);
 Vue.component("api-api-api", require("./components/NewComponents/api.vue").default);
 
@@ -65,6 +65,7 @@ import SingleItem2 from './components/PawnshopPages/SingleItem2.vue';
 import SingleBiddedItem2 from './components/PawnshopPages/SingleBiddedItem2.vue';
 Vue.component("single-item-pictures", require("./components/PawnshopPages/SingleItemPictures.vue").default);
 Vue.component("modal-report-user", require("./components/Modal/ModalReportUser.vue").default);
+Vue.component("vue-fcm", require("./components/PawnshopPages/fcm.vue").default);
 //
 
 //Pending items
@@ -151,13 +152,13 @@ const router = new VueRouter({
 
                 },
 
-                
 
 
-                
 
 
-                
+
+
+
             ]
         },
         {

@@ -31,7 +31,7 @@ class SMS extends Controller
 
         $contact1 = $user->contact;
         $newstring = substr($contact1, -10);
-        $newstring = '63'.$newstring;
+        $newstring = '63' . $newstring;
 
         $contact = $newstring;
         if (
@@ -44,6 +44,42 @@ class SMS extends Controller
                 'text' => $message
             ]);
         }
+
+        $data = array(
+            'to' => '/topics/all',
+            'collapse_key' => 'type_a',
+            'notification' => array(
+                'body' => $request->pawnshop_name . ' appraised your item.',
+                'title' => 'Epawn'
+            ),
+            'data' => array(
+                'body' => 'Body of Your Notification in Data',
+                'title' => 'Title of Your Notification in Title',
+                'key_1' => 'Value for key_1',
+                'key_2' => 'Value for key_2',
+            )
+        );
+
+        $payload = json_encode($data);
+        $ch = curl_init('https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Authorization: key=AAAAJLCm3kk:APA91bGgnwb5jH_oMnTHSd1T6yQw_bwC53UZcfmB4Wt54DUXLyigR5wjU-oC9KwZ1YW748qgbdL_k90Mi2a6ZVYwT4FnvpxWDQBNgGb7pjrhyS_7oQ6fdIjLmvgkIj4QbomPVWLFKf4e',
+            )
+        );
+
+        $response_data = curl_exec($ch);
+        // dd(curl_getinfo($ch));
+        curl_close($ch);
+        // return $response_data;
+
 
         //   $nexmo = app('Nexmo/Client');
         //   $nexmo->message()->send([

@@ -251,6 +251,7 @@
                <b>₱{{ itemDetails[itemDetails.length - 1].initial_amount }}</b>
             </div>
          </div>
+         <vue-fcm ref="vue_fcm"></vue-fcm>
       </div>
 
       <!-- Modal for Open deal -->
@@ -454,7 +455,11 @@ export default {
             });
          }
       },
+    //   sendBid() {
+    //        this.$refs.vue_fcm.submitAction()
+    //   },
       sendBid() {
+        //  this.$refs.vue_fcm.submitAction()
          let data = {
             itemId: this.$route.query.itemId,
             bidamount: this.bidamount,
