@@ -291,6 +291,7 @@ export default {
 			await axios
 				.post("api/zSavePawnedItem", data)
 				.then(res => {
+                    this.donwloadPDf(res.data.package_id, res.data.pawn_amount, res.data.created_at);
 					console.log(res);
 					Swal.fire({
 						title: "Pawn Item Succesfully",
@@ -305,33 +306,34 @@ export default {
 					console.error(err);
 				});
 		},
-		// async savePawnedItem() {
-		// 	let data = {
-		// 		item_id: this.item.item_id,
-		// 		pawnshop_id: this.pawnshop_id,
-		// 		customer_id: this.item.user_id,
-		// 		package_id: this.selectedPackage,
-		// 		pawn_amount: this.item.initial_amount,
-		// 		days_deadline: this.days_deadline
-		// 	};
 
-		// 	await axios
-		// 		.post("api/zSavePawnedItem", data)
-		// 		.then(res => {
-		// 			console.log(res);
-		// 			Swal.fire({
-		// 				title: "Pawn Item Succesfully",
-		// 				toast: true,
-		// 				timer: 3000,
-		// 				position: "top-right"
-		// 			});
-		// 			$("#modalPawning").modal("hide");
-		// 			this.$parent.GetPendingItemsByPawnshop();
-		// 		})
-		// 		.catch(err => {
-		// 			console.error(err);
-		// 		});
-		// },
+        donwloadPDf(package_id, amount, date){
+               axios({
+                    method: "post",
+                    url: "/api/downloadPDF",
+                    data: {
+                        package_id: package_id,
+                        amount: amount,
+                        date: date,
+                    },
+                    responseType: "arraybuffer",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/pdf"
+                    }
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", "receipt.pdf"); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch(error => console.log(error));
+        },
+
+
 		toFormat(num) {
 			return Number(parseFloat(num).toFixed(2)).toLocaleString("en", {
 				minimumFractionDigits: 2
