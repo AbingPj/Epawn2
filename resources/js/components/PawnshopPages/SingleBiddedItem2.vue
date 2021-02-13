@@ -251,6 +251,7 @@
                <b>₱{{ itemDetails[itemDetails.length - 1].initial_amount }}</b>
             </div>
          </div>
+         <vue-fcm ref="vue_fcm"></vue-fcm>
       </div>
 
       <!-- Modal for Open deal -->
@@ -454,7 +455,11 @@ export default {
             });
          }
       },
+    //   sendBid() {
+    //        this.$refs.vue_fcm.submitAction()
+    //   },
       sendBid() {
+        //  this.$refs.vue_fcm.submitAction()
          let data = {
             itemId: this.$route.query.itemId,
             bidamount: this.bidamount,
@@ -477,7 +482,8 @@ export default {
                         this.bid_range.to.trim().length == 0 ? true : false,
                      bid_from: this.bid_range.from,
                      bid_to: this.bid_range.to,
-                     itemName: this.itemDetails[0].item_name
+                     itemName: this.itemDetails[0].item_name,
+                     user_id: data.userId
                   };
                   console.info("sns sms", smsData);
                   SMS.methods.sendSMS(smsData);
