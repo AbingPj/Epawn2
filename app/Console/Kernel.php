@@ -25,7 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('epawn:sample')->everyMinute();
+        $schedule->command('epawn:sample')
+            ->everyMinute()
+            ->appendOutputTo('epawn-sample.log');;
         $schedule->command('epawn:send-confiscation')
             ->dailyAt('00:01')
             ->timezone('Asia/Manila')
@@ -47,6 +49,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('epawn:confiscate')->everyMinute()->timezone('Asia/Manila')->appendOutputTo('epawn-confiscate.log');
         // go daddy cronjob call
         // /usr/local/bin/php /home/dwk82pa7p1tk/public_html/epawn/artisan schedule:run >> /dev/null 2>&1
+        // /usr/local/bin/php /home/eg04676dv2fd/master/Epawn2/artisan schedule:run >> /dev/null 2>&1
     }
 
     /**
