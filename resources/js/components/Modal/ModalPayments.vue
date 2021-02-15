@@ -189,6 +189,15 @@ export default {
          await axios
             .post("api/sendRenewPayment", data)
             .then(res => {
+             this.donwloadPDfRenew(
+             res.data.package_id,
+             res.data.pawn_amount,
+             res.data.date_renew,
+             res.data.id,
+             res.data.item_id,
+             res.data.pawnshop_id,
+             res.data.customer_id
+             );
                console.log(res);
                Swal.fire({
                   title: "Send Renewal Payment Succesfully",
@@ -203,6 +212,38 @@ export default {
                console.error(err);
             });
       },
+
+
+
+        donwloadPDfRenew(package_id, amount, date, zpawneditem_id, item_id, pawnshop_id, user_id){
+               axios({
+                    method: "post",
+                    url: "/api/downloadPDFRenew",
+                    data: {
+                        package_id: package_id,
+                        amount: amount,
+                        date: date,
+                        pawnshop_id: pawnshop_id,
+                        customer_id: user_id,
+                        zpawneditem_id: zpawneditem_id,
+                        item_id: item_id,
+                    },
+                    responseType: "arraybuffer",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/pdf"
+                    }
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", "receipt.pdf"); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch(error => console.log(error));
+        },
 
       async claim() {
          let data = {
