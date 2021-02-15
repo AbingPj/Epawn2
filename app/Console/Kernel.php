@@ -25,9 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('epawn:sample')
-            ->everyMinute()
-            ->appendOutputTo('epawn-sample.log');;
+        // $schedule->command('epawn:sample')
+        //     ->everyMinute()
+        //     ->appendOutputTo('epawn-sample.log');;
         $schedule->command('epawn:send-confiscation')
             ->dailyAt('00:01')
             ->timezone('Asia/Manila')
