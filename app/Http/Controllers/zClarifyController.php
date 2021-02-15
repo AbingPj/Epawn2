@@ -472,39 +472,39 @@ class zClarifyController extends Controller
     }
 
 
-    // public function getPdfRenew(Request $request){
+    public function getPdfRenew(Request $request){
 
-    //     $epawn_logo = public_path('/icon.png');
-    //     $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
-    //     $customer = tbl_user::where('user_id', $request->customer_id)->first();
-    //     $amount = number_format( $request->amount,2);
+        $epawn_logo = public_path('/icon.png');
+        $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
+        $customer = tbl_user::where('user_id', $request->customer_id)->first();
+        $amount = number_format( $request->amount,2);
 
-    //     $item = tbl_user_itempost::find($request->item_id);
-    //     $pawned = zPawnedItem::find($request->zpawneditem_id);
-    //     $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $pawned->date_renew);
+        $item = tbl_user_itempost::find($request->item_id);
+        $pawned = zPawnedItem::find($request->zpawneditem_id);
+        $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $pawned->date_renew);
 
-    //     // dd($item);
-    //     // dd($pawnshop->atr_image_link);
-    //     // dd($details['monthly']);
-    //     $class = new stdClass;
-    //     $class->epawn_logo = $epawn_logo;
-    //     $class->pawnshop = $pawnshop;
-    //     $class->customer = $customer;
-    //     $class->details = $details;
-    //     // $class->monthly = $details;
-    //     $class->printed = Carbon::now('Asia/Manila')->format('m/d/Y');
-    //     $class->datePawned = Carbon::parse($pawned->date_pawned)->format('M.d,Y');
-    //     $class->item_name = $item->item_name;
-    //     $class->item_desc = $item->item_description;
-    //     $class->amount = $amount;
-    //     $class->number = $pawned->id;
-    //     // $class->number = 12345;
-    //     $class->dateRenew = "Date Renew: ". Carbon::parse($pawned->date_renew)->format('M.d,Y');
+        // dd($item);
+        // dd($pawnshop->atr_image_link);
+        // dd($details['monthly']);
+        $class = new stdClass;
+        $class->epawn_logo = $epawn_logo;
+        $class->pawnshop = $pawnshop;
+        $class->customer = $customer;
+        $class->details = $details;
+        // $class->monthly = $details;
+        $class->printed = Carbon::now('Asia/Manila')->format('m/d/Y');
+        $class->datePawned = Carbon::parse($pawned->date_pawned)->format('M.d,Y');
+        $class->item_name = $item->item_name;
+        $class->item_desc = $item->item_description;
+        $class->amount = $amount;
+        $class->number = $pawned->id;
+        // $class->number = 12345;
+        $class->dateRenew = "Date Renew: ". Carbon::parse($pawned->date_renew)->format('M.d,Y');
 
 
-    //     $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
-    //     return $pdf->download('accept.pdf');
-    // }
+        $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
+        return $pdf->download('accept.pdf');
+    }
 
 
 

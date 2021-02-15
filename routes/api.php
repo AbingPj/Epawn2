@@ -169,6 +169,7 @@ Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyControll
 // get the current renewal or claim payments and calculations
 Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails');;
 Route::post('/downloadPDF', 'zClarifyController@getPdf');
+Route::post('/downloadPDFRenew', 'zClarifyController@getPdfRenew');
 Route::get('/getPdfDataJson', 'zClarifyController@getPdfDataJson');
 
 // to save pawned item //this is it
