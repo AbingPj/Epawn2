@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\zPackage;
 // use App\zPackageDuration;
 use App\tbl_package_duration;
+use App\tbl_user;
 use App\zPawnedItem;
 use App\zPayments;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use stdClass;
 
 class zClarifyController extends Controller
 {
@@ -425,8 +427,8 @@ class zClarifyController extends Controller
             $item->status = 2;
             $item->save();
 
-            DB::rollback();
-
+            // DB::rollback();
+            DB::commit();
             return $test;
 
             //Create Pdf
@@ -437,9 +439,78 @@ class zClarifyController extends Controller
 
     public function getPdf(Request $request){
 
-        $class = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $request->date);
-        $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a6', 'landscape');
+        $epawn_logo = public_path('/icon.png');
+        $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
+        $customer = tbl_user::where('user_id', $request->customer_id)->first();
+        $amount = number_format( $request->amount,2);
+
+        $item = tbl_user_itempost::find($request->item_id);
+        $pawned = zPawnedItem::find($request->zpawneditem_id);
+        $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $pawned->date_pawned);
+
+        // dd($item);
+        // dd($pawnshop->atr_image_link);
+        // dd($details['monthly']);
+        $class = new stdClass;
+        $class->epawn_logo = $epawn_logo;
+        $class->pawnshop = $pawnshop;
+        $class->customer = $customer;
+        $class->details = $details;
+        // $class->monthly = $details;
+        $class->printed = Carbon::now('Asia/Manila')->format('m/d/Y');
+        $class->datePawned = Carbon::parse($pawned->date_pawned)->format('M.d,Y');
+        $class->item_name = $item->item_name;
+        $class->item_desc = $item->item_description;
+        $class->amount = $amount;
+        $class->number = $pawned->id;
+        // $class->number = 12345;
+        $class->dateRenew = "";
+
+
+        $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
         return $pdf->download('accept.pdf');
+    }
+
+
+    // public function getPdfRenew(Request $request){
+
+    //     $epawn_logo = public_path('/icon.png');
+    //     $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
+    //     $customer = tbl_user::where('user_id', $request->customer_id)->first();
+    //     $amount = number_format( $request->amount,2);
+
+    //     $item = tbl_user_itempost::find($request->item_id);
+    //     $pawned = zPawnedItem::find($request->zpawneditem_id);
+    //     $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $pawned->date_renew);
+
+    //     // dd($item);
+    //     // dd($pawnshop->atr_image_link);
+    //     // dd($details['monthly']);
+    //     $class = new stdClass;
+    //     $class->epawn_logo = $epawn_logo;
+    //     $class->pawnshop = $pawnshop;
+    //     $class->customer = $customer;
+    //     $class->details = $details;
+    //     // $class->monthly = $details;
+    //     $class->printed = Carbon::now('Asia/Manila')->format('m/d/Y');
+    //     $class->datePawned = Carbon::parse($pawned->date_pawned)->format('M.d,Y');
+    //     $class->item_name = $item->item_name;
+    //     $class->item_desc = $item->item_description;
+    //     $class->amount = $amount;
+    //     $class->number = $pawned->id;
+    //     // $class->number = 12345;
+    //     $class->dateRenew = "Date Renew: ". Carbon::parse($pawned->date_renew)->format('M.d,Y');
+
+
+    //     $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
+    //     return $pdf->download('accept.pdf');
+    // }
+
+
+
+    public function getPdfDataJson(){
+        $details = $this->getPawnedItemPaymentDetailsForPDFandEMail(2, 3000, "2021-02-15 14:18:21");
+        return response()->json($details, 200);
     }
 
     public function getPawnedItemPaymentDetailsForPDFandEMail($package_id, $amount, $date)
@@ -502,9 +573,11 @@ class zClarifyController extends Controller
                     'number_of_days' => ($number_of_days + 1),
                     'interest' => $duration->interestRate,
                     'renewal' => $renewal,
+                    'renewal_f' => number_format($renewal,2),
                     'claim_without_advance_interest' => $claim_without_advance_interest,
                     'claim_with_advance_interest' =>  $claim_with_advance_interest,
-                    'redemption' => $redemption
+                    'redemption' => $redemption,
+                    'redemption_f' => number_format($redemption,2),
                 );
                 array_push($specials, $obj);
             }
@@ -559,23 +632,34 @@ class zClarifyController extends Controller
                 'interest' => $interest,
                 'penalty' => $pinalty,
                 'renewal' => $renewal,
+                'renewal_f' => number_format($renewal,2),
                 'claim_without_advance_interest' => $claim_without_advance_interest,
                 'claim_with_advance_interest' =>  $claim_with_advance_interest,
-                'redemption' => $redemption
+                'redemption' => $redemption,
+                'redemption_f' => number_format($redemption,2),
             );
             array_push($monthly, $obj);
         }
-        $obj = array(
-            'date_now' => $dateNow->format('M d, Y'),
-            'current_renewal' => $currentRenewal,
-            'current_payment' => $currentPayment,
-            'specials' => $specials,
-            'monthly' => $monthly,
-            'package' => $package,
+        // $obj = array(
+        //     'date_now' => $dateNow->format('M d, Y'),
+        //     'current_renewal' => $currentRenewal,
+        //     'current_payment' => $currentPayment,
+        //     'specials' => $specials,
+        //     'monthly' => $monthly,
+        //     'package' => $package,
 
-        );
-        array_push($data, $obj);
-        return $data;
+        // );
+        // array_push($data, $obj);
+        $class =  new stdClass;
+        $class->date_now =  $dateNow->format('M d, Y');
+        $class->current_renewal =  $currentRenewal;
+        $class->current_payment =  $currentPayment;
+        $class->specials = $specials;
+        $class->monthly = $monthly;
+        $class->package = $package;
+        // $class->datePawned = $datePawned;
+
+        return $class;
         // return response()->json($data);
     }
 

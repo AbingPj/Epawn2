@@ -291,7 +291,7 @@ export default {
 			await axios
 				.post("api/zSavePawnedItem", data)
 				.then(res => {
-                    this.donwloadPDf(res.data.package_id, res.data.pawn_amount, res.data.created_at);
+                    this.donwloadPDf(res.data.package_id, res.data.pawn_amount, res.data.date_pawned, res.data.id, res.data.item_id);
 					console.log(res);
 					Swal.fire({
 						title: "Pawn Item Succesfully",
@@ -307,7 +307,7 @@ export default {
 				});
 		},
 
-        donwloadPDf(package_id, amount, date){
+        donwloadPDf(package_id, amount, date, zpawneditem_id, item_id){
                axios({
                     method: "post",
                     url: "/api/downloadPDF",
@@ -315,6 +315,10 @@ export default {
                         package_id: package_id,
                         amount: amount,
                         date: date,
+                        pawnshop_id: this.pawnshop_id,
+                        customer_id: this.item.user_id,
+                        zpawneditem_id: zpawneditem_id,
+                        item_id: item_id,
                     },
                     responseType: "arraybuffer",
                     headers: {
