@@ -221,6 +221,7 @@ class zClarifyController extends Controller
         // $dateNow = Carbon::parse('2020-02-10 14:50:11');
         $stop = false;
         $currentPayment = 0;
+        $currentInterest = 0;
         $currentRenewal = 0;
 
 
@@ -249,6 +250,7 @@ class zClarifyController extends Controller
 
                 if($dateNow <= $dateTo &&  $stop == false){
                     $currentPayment = $redemption;
+                    $currentInterest = $duration->interestRate;
                     $currentRenewal = $renewal;
                     $stop = true;
                 }
@@ -306,6 +308,7 @@ class zClarifyController extends Controller
 
             if($dateNow <= $month &&  $stop == false){
                 $currentPayment = $redemption;
+                $currentInterest = $package->interest_per_month;
                 $currentRenewal = $renewal;
                 $stop = true;
             }
@@ -330,6 +333,7 @@ class zClarifyController extends Controller
             'date_now' => $dateNow->format('M d, Y'),
             'current_renewal' => $currentRenewal,
             'current_payment' => $currentPayment,
+            'current_interest_rate' => $currentInterest,
             'specials' => $specials,
             'monthly' => $monthly,
             'package' => $package,
@@ -413,7 +417,7 @@ class zClarifyController extends Controller
             $pawned->customer_id =  $request->customer_id;
             $pawned->package_id =  $request->package_id;
             $pawned->pawn_amount =  $request->pawn_amount;
-            $pawned->date_pawned =  Carbon::now('Asia/Manila');
+            $pawned->date_pawned =  Carbon::now('Asia/Manila')->format('Y-m-d H:i:s');
             $pawned->date_renew =  Carbon::now('Asia/Manila');
             $pawned->days_deadline =   $days_deadline;
             // $pawned->date_claimed =  Carbon::now('Asia/Manila');
@@ -446,7 +450,7 @@ class zClarifyController extends Controller
 
         $item = tbl_user_itempost::find($request->item_id);
         $pawned = zPawnedItem::find($request->zpawneditem_id);
-        $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $pawned->date_pawned);
+        $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $request->date);
 
         // dd($item);
         // dd($pawnshop->atr_image_link);
@@ -458,7 +462,7 @@ class zClarifyController extends Controller
         $class->details = $details;
         // $class->monthly = $details;
         $class->printed = Carbon::now('Asia/Manila')->format('m/d/Y');
-        $class->datePawned = Carbon::parse($pawned->date_pawned)->format('M.d,Y');
+        $class->datePawned = Carbon::parse($request->date)->format('M.d,Y');
         $class->item_name = $item->item_name;
         $class->item_desc = $item->item_description;
         $class->amount = $amount;
@@ -504,6 +508,42 @@ class zClarifyController extends Controller
 
         $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
         return $pdf->download('accept.pdf');
+    }
+
+    public function getPdfClaim(Request $request){
+
+        $epawn_logo = public_path('/icon.png');
+        $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
+        $customer = tbl_user::where('user_id', $request->customer_id)->first();
+        $amount = number_format( $request->amount,2);
+
+        $item = tbl_user_itempost::find($request->item_id);
+        $pawned = zPawnedItem::find($request->zpawneditem_id);
+        $details = $this->getPawnedItemPaymentDetailsForPDFandEMail($request->package_id, $request->amount, $pawned->date_renew);
+
+        // dd($item);
+        // dd($pawnshop->atr_image_link);
+        // dd($details['monthly']);
+        $class = new stdClass;
+        $class->epawn_logo = $epawn_logo;
+        $class->pawnshop = $pawnshop;
+        $class->customer = $customer;
+        $class->details = $details;
+        // $class->monthly = $details;
+        $class->printed = Carbon::now('Asia/Manila')->format('m/d/Y');
+        $class->datePawned = Carbon::parse($pawned->date_pawned)->format('M.d,Y');
+        $class->item_name = $item->item_name;
+        $class->item_desc = $item->item_description;
+        $class->amount = $amount;
+        $class->number = $pawned->id;
+        $class->current_interest_rate = $request->current_interest_rate;
+        $class->current_payment = number_format($request->current_payment,2);
+        // $class->number = 12345;
+        $class->dateRenew = "Date Renew: ". Carbon::parse($pawned->date_renew)->format('M.d,Y');
+
+
+        $pdf = PDF::loadView('pdf.claim-pdf', compact('class'))->setPaper('a4', 'landscape');
+        return $pdf->download('claim.pdf');
     }
 
 

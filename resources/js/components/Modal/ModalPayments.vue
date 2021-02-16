@@ -143,6 +143,7 @@ export default {
          monthly: [],
          date_now: "",
          current_payment: 0,
+         current_interest_rate: 0,
          current_renewal: 0
       };
    },
@@ -254,6 +255,15 @@ export default {
          await axios
             .post("api/sendClaimPayment", data)
             .then(res => {
+             this.downloadPDFClaim(
+             res.data.package_id,
+             res.data.pawn_amount,
+             res.data.date_renew,
+             res.data.id,
+             res.data.item_id,
+             res.data.pawnshop_id,
+             res.data.customer_id
+             );
                console.log(res);
                Swal.fire({
                   title: "Send Claim Payment Succesfully",
@@ -268,6 +278,39 @@ export default {
                console.error(err);
             });
       },
+
+
+       downloadPDFClaim(package_id, amount, date, zpawneditem_id, item_id, pawnshop_id, user_id){
+               axios({
+                    method: "post",
+                    url: "/api/downloadPDFClaim",
+                    data: {
+                        package_id: package_id,
+                        amount: amount,
+                        date: date,
+                        pawnshop_id: pawnshop_id,
+                        customer_id: user_id,
+                        zpawneditem_id: zpawneditem_id,
+                        item_id: item_id,
+                        current_payment:  this.current_payment,
+                        current_interest_rate:  this.current_interest_rate,
+                    },
+                    responseType: "arraybuffer",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/pdf"
+                    }
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", "receipt.pdf"); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch(error => console.log(error));
+        },
 
       async getPaymentCalculations() {
          await axios
@@ -284,6 +327,7 @@ export default {
                this.monthly = this.calculations[0].monthly;
                this.specials = this.calculations[0].specials;
                this.current_payment = this.calculations[0].current_payment;
+               this.current_interest_rate = this.calculations[0].current_interest_rate;
                this.current_renewal = this.calculations[0].current_renewal;
                this.date_now = this.calculations[0].date_now;
             })
