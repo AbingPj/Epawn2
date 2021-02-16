@@ -50,7 +50,7 @@ class zPaymentController extends Controller
             $payment->save();
 
         // DB::rollback();
-        DB::commit();
+
         return $pawned;
     }
 
@@ -93,6 +93,9 @@ class zPaymentController extends Controller
             $payment->save();
             DB::commit();
             // DB::rollback();
+
+
+
 
             return $pawned;
 

@@ -470,6 +470,18 @@ class zClarifyController extends Controller
         // $class->number = 12345;
         $class->dateRenew = "";
 
+        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
+        $beautymail->send(
+            'emails.acceptrenew',
+            ['class' => $class],
+            function ($message) use ($class, $customer) {
+                $message
+                    ->from('epawn.online01@gmail.com', 'E-PAWN')
+                    ->to($customer->email, $customer->fname)
+                    ->subject('E-pawn Accept Pawned Item');
+            }
+        );
+
 
         $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
         return $pdf->download('accept.pdf');
@@ -504,6 +516,18 @@ class zClarifyController extends Controller
         $class->number = $pawned->id;
         // $class->number = 12345;
         $class->dateRenew = "Date Renew: ". Carbon::parse($pawned->date_renew)->format('M.d,Y');
+
+        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
+        $beautymail->send(
+            'emails.acceptrenew',
+            ['class' => $class],
+            function ($message) use ($class, $customer) {
+                $message
+                    ->from('epawn.online01@gmail.com', 'E-PAWN')
+                    ->to($customer->email, $customer->fname)
+                    ->subject('E-pawn Renew Pawned Item');
+            }
+        );
 
 
         $pdf = PDF::loadView('pdf.accept-pdf', compact('class'))->setPaper('a4', 'landscape');
@@ -540,6 +564,19 @@ class zClarifyController extends Controller
         $class->current_payment = number_format($request->current_payment,2);
         // $class->number = 12345;
         $class->dateRenew = "Date Renew: ". Carbon::parse($pawned->date_renew)->format('M.d,Y');
+
+
+        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
+        $beautymail->send(
+            'emails.claim',
+            ['class' => $class],
+            function ($message) use ($class, $customer) {
+                $message
+                    ->from('epawn.online01@gmail.com', 'E-PAWN')
+                    ->to($customer->email, $customer->fname)
+                    ->subject('E-pawn Claim Pawned Item');
+            }
+        );
 
 
         $pdf = PDF::loadView('pdf.claim-pdf', compact('class'))->setPaper('a4', 'landscape');
