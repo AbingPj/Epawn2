@@ -119,10 +119,10 @@
 
 
 
-					
 
 
-						
+
+
 
 					</ul>
 				</nav>
@@ -160,7 +160,7 @@
 			<!-- Default to the left -->
 			<strong
 				>Copyright &copy; 2014-2019
-				<a href="https://adminlte.io">AdminLTE.io</a>.</strong
+				<a href="http://epawn.site/">epawn.site</a>.</strong
 			>
 			All rights reserved.
 		</footer>
