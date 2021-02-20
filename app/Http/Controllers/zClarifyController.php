@@ -444,6 +444,7 @@ class zClarifyController extends Controller
     public function getPdf(Request $request){
 
         $epawn_logo = public_path('/icon.png');
+        $epawn_logo2 = url('/icon.png');
         $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
         $customer = tbl_user::where('user_id', $request->customer_id)->first();
         $amount = number_format( $request->amount,2);
@@ -457,6 +458,7 @@ class zClarifyController extends Controller
         // dd($details['monthly']);
         $class = new stdClass;
         $class->epawn_logo = $epawn_logo;
+        $class->epawn_logo2 = $epawn_logo2;
         $class->pawnshop = $pawnshop;
         $class->customer = $customer;
         $class->details = $details;
@@ -491,6 +493,7 @@ class zClarifyController extends Controller
     public function getPdfRenew(Request $request){
 
         $epawn_logo = public_path('/icon.png');
+        $epawn_logo2 = url('/icon.png');
         $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
         $customer = tbl_user::where('user_id', $request->customer_id)->first();
         $amount = number_format( $request->amount,2);
@@ -504,6 +507,7 @@ class zClarifyController extends Controller
         // dd($details['monthly']);
         $class = new stdClass;
         $class->epawn_logo = $epawn_logo;
+        $class->epawn_logo2 = $epawn_logo2;
         $class->pawnshop = $pawnshop;
         $class->customer = $customer;
         $class->details = $details;
@@ -537,6 +541,7 @@ class zClarifyController extends Controller
     public function getPdfClaim(Request $request){
 
         $epawn_logo = public_path('/icon.png');
+        $epawn_logo2 = url('/icon.png');
         $pawnshop = tbl_user::where('user_id', $request->pawnshop_id)->first();
         $customer = tbl_user::where('user_id', $request->customer_id)->first();
         $amount = number_format( $request->amount,2);
@@ -550,6 +555,7 @@ class zClarifyController extends Controller
         // dd($details['monthly']);
         $class = new stdClass;
         $class->epawn_logo = $epawn_logo;
+        $class->epawn_logo2 = $epawn_logo2;
         $class->pawnshop = $pawnshop;
         $class->customer = $customer;
         $class->details = $details;

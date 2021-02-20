@@ -122,7 +122,7 @@
         <thead class="thead1" style="margin-top:0px !important; padding-top:0px !important;">
             <tr style="margin-top:0px !important; padding-top:0px !important;">
                 <th class="theadth1 sun-text-left" style="margin-top:0px !important; padding-top:0px !important;">
-                    <img class="logo" src="{{$class->epawn_logo}}" alt=""></th>
+                    <img class="logo" src="{{$class->epawn_logo2}}" alt=""></th>
                 <td class="theadtd1 sun-text-center" style="margin-top:0px !important; padding-top:0px !important; text-align:center">
                     <b>
                         <h4 style="color: #f57224; margin: 0px 0px; font-size:15px !important;">Pawn Information
