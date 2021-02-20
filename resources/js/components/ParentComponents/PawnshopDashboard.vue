@@ -248,7 +248,7 @@
          <!-- Default to the left -->
          <strong>
             Copyright &copy; 2020
-            <a href="https://adminlte.io">Epawn.online</a>.
+            <a href="http://epawn.site/">epawn.site</a>.
          </strong>
          All rights reserved.
       </footer>

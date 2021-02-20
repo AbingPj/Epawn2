@@ -163,13 +163,17 @@ Route::get('/getCategoriesByPawnshop/{id}', 'zCategoriesController@getCategories
 
 ////////////////////////////////////////////////
 
-//get the the calculations
+//get the the calculations //this is it
 Route::get('/getPawnedItemCalculations/{package_id}/{amount}', 'zClarifyController@getPawnedItemCalculations');;
 
 // get the current renewal or claim payments and calculations
 Route::get('/getPawnedItemPaymentDetails/{package_id}/{amount}/{date}', 'zClarifyController@getPawnedItemPaymentDetails');;
+Route::post('/downloadPDF', 'zClarifyController@getPdf');
+Route::post('/downloadPDFRenew', 'zClarifyController@getPdfRenew');
+Route::post('/downloadPDFClaim', 'zClarifyController@getPdfClaim');
+Route::get('/getPdfDataJson', 'zClarifyController@getPdfDataJson');
 
-// to save pawned item
+// to save pawned item //this is it
 Route::post('/zSavePawnedItem', 'zClarifyController@zSavePawnedItem');;
 
 Route::post('/zRejectPendingItem', 'zClarifyController@zRejectPendingItem');;
