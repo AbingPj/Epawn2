@@ -48,6 +48,7 @@ class zPaymentController extends Controller
             $payment->payment_type_desc = 'renew';
             $payment->amount = $request->amount;
             $payment->save();
+        DB::commit();
 
         // DB::rollback();
 
